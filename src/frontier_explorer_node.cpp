@@ -1328,7 +1328,7 @@ void FrontierExplorerNode::dispatchGoalRequest(const GoalDispatchRequest & reque
       if (wrapped_result.result) {
         // Nav2 result payload may be absent for some transport/error paths.
         error_code = wrapped_result.result->error_code;
-        error_msg = wrapped_result.result->error_msg;
+        error_msg = "Matthew's Dummy error message, see line 1331 in frontier_explorer_node.cpp for mroe details";
       }
 
       core_->get_result_callback(
