@@ -58,7 +58,7 @@ frontier_explorer:
     # Refresh Rate of the package.
     # `1.0` is recommended. Use `2.0` if your robot is very fast. 
     # Use `0.50` if your mapping is slow and you want lowest CPU usage.  
-    map_processing_rate_hz: 0.50
+    map_processing_rate_hz: 1.0
 
     # Start exploration immediately at launch.
     autostart: true
@@ -74,11 +74,11 @@ frontier_explorer:
     escape_enabled: true
 
     # Return to the recorded start pose once no frontiers remain.
-    return_to_start_on_complete: true
+    return_to_start_on_complete: false
 
     # "dp" optimizes traveling distance by comparing posibilities with limited depth. Increasing efficiency but adds extra CPU overhead.
     # "greedy" traverses the full MRTSP matrix one step at a time. Cost free.
-    mrtsp_solver: greedy
+    mrtsp_solver: dp
     # Maximum number of scored frontier candidates passed into the bounded-horizon dp solver.
     dp_solver_candidate_limit: 12
     # Number of distinct frontier visits evaluated in the candidate pool.
@@ -86,11 +86,11 @@ frontier_explorer:
 
     # Enable decision-map preprocessing for frontier extraction. 
     # Disable only if you are having performance issues. Not a problem for most CPUs.
-    frontier_map_optimization_enabled: false
+    frontier_map_optimization_enabled: true
 
     # Replan while navigating if target-pose visible reveal gain for active goal is exhausted.
     # Disable if you are having performance issues.
-    goal_preemption_enabled: false
+    goal_preemption_enabled: true
 
      # Minimum seconds between consecutive goal preemption attempts.
     # Also effects performance.
