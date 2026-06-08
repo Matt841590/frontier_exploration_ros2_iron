@@ -58,7 +58,7 @@ frontier_explorer:
     # Refresh Rate of the package.
     # `1.0` is recommended. Use `2.0` if your robot is very fast. 
     # Use `0.50` if your mapping is slow and you want lowest CPU usage.  
-    map_processing_rate_hz: 1.0
+    map_processing_rate_hz: 0.5
 
     # Start exploration immediately at launch.
     autostart: true
