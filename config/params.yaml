@@ -108,11 +108,11 @@ frontier_explorer:
 
     # Enable temporary suppression for frontiers that repeatedly fail or stall.
     # Use if you are having issues with SLAM or Nav2.
-    frontier_suppression_enabled: false
+    frontier_suppression_enabled: true
 
     # Behavior when frontiers exist but all of them are temporarily suppressed: stay or return_to_start. 
     # Requires `frontier_suppression_enabled: true`
-    all_frontiers_suppressed_behavior: return_to_start
+    all_frontiers_suppressed_behavior: stay
 
 
     # --------------- Algorithm Configuration - Advanced Users --------------- #
@@ -123,13 +123,13 @@ frontier_explorer:
     # Increasing this makes the explorer more distance-sensitive and conservative.
     # Decreasing it makes information gain dominate more often.
     # Example: 2.0 prefers closer frontiers, 0.5 allows farther high-gain picks.
-    weight_distance_wd: 1.0
+    weight_distance_wd: 0.5
 
     # Weight applied to the frontier information-gain term.
     # Larger values favor large frontier clusters that promise more map expansion.
     # Smaller values make the robot clean up nearby small frontiers first.
     # Example: 2.0 may skip small room corners, 0.5 tends to clear them sooner.
-    weight_gain_ws: 1.0
+    weight_gain_ws: 1.5
 
     # Max linear speed used only in the lower-bound time term.
     # It does not command the robot directly; it estimates how fast a frontier
@@ -229,7 +229,7 @@ frontier_explorer:
     # --------------- Suppression --------------- #
 
     # Number of failed attempts before a frontier area is temporarily suppressed.
-    frontier_suppression_attempt_threshold: 2
+    frontier_suppression_attempt_threshold: 1
 
     # Initial side length in meters for a newly suppressed square area.
     frontier_suppression_base_size_m: 1.0
@@ -238,13 +238,13 @@ frontier_explorer:
     frontier_suppression_expansion_size_m: 0.5
 
     # Suppression entry lifetime in seconds before old regions and attempts are removed.
-    frontier_suppression_timeout_s: 90.0
+    frontier_suppression_timeout_s: 15.0
 
     # Maximum allowed time in seconds without meaningful progress before a frontier goal is canceled.
-    frontier_suppression_no_progress_timeout_s: 20.0
+    frontier_suppression_no_progress_timeout_s: 10.0
 
     # Minimum distance_remaining improvement in meters required to count as progress.
-    frontier_suppression_progress_epsilon_m: 0.25
+    frontier_suppression_progress_epsilon_m: 0.1
 
     # Delay suppression activation during startup so late navigation bring-up does not poison frontier memory.
     frontier_suppression_startup_grace_period_s: 15.0
@@ -254,4 +254,3 @@ frontier_explorer:
 
     # Maximum number of active suppressed regions kept in memory.
     frontier_suppression_max_regions: 64
-

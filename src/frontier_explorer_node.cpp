@@ -1320,23 +1320,33 @@ void FrontierExplorerNode::dispatchGoalRequest(const GoalDispatchRequest & reque
     };
 
   options.result_callback = [this, dispatch_id = request.dispatch_id](
-    const NavigateGoalHandle::WrappedResult & wrapped_result)
-    {
-      const int status = mapResultCodeToGoalStatus(wrapped_result.code);
-      int error_code = 0;
-      std::string error_msg;
-      if (wrapped_result.result) {
-        // Nav2 result payload may be absent for some transport/error paths.
-        error_code = wrapped_result.result->error_code;
-        error_msg = "Matthew's Dummy error message, see line 1331 in frontier_explorer_node.cpp for mroe details";
-      }
+      const NavigateGoalHandle::WrappedResult & wrapped_result)
+      {
+        const int status = mapResultCodeToGoalStatus(wrapped_result.code);
+        int error_code = 0;
+        std::string error_msg;
 
-      core_->get_result_callback(
-        dispatch_id,
-        status,
-        error_code,
-        error_msg);
-    };
+        if (wrapped_result.result) {
+          // First, extract the actual error code from the payload
+          error_code = wrapped_result.result->error_code;
+
+          // Check if the action execution actually failed
+          if (wrapped_result.code != rclcpp_action::ResultCode::SUCCEEDED) {
+            error_msg = "Nav2 Aborted. Code: " + std::to_string(error_code) + 
+                        " | Checked at line 1331 in frontier_explorer_node.cpp";
+          } else {
+            error_msg = "Goal reached successfully!";
+          }
+        } else {
+          error_msg = "No result payload returned from Nav2 (Transport/Timeout Failure)";
+        }
+
+        core_->get_result_callback(
+          dispatch_id,
+          status,
+          error_code,
+          error_msg);
+      };
 
   try {
     navigate_to_pose_client_->async_send_goal(goal_request, options);
